@@ -1,5 +1,7 @@
 import {BehaviorSubject, combineLatest, EMPTY, map, Observable} from "rxjs";
 import {getValueToUpsert, select} from './utils'
+import {createObject} from "rxjs/internal/util/createObject";
+import {createState} from "./create-state";
 
 type Path = string;
 type StateCallback<T> = (state: T) => any
@@ -9,7 +11,7 @@ export type UpdaterData<T> = Path | [Path, any] | [Path, StateCallback<T>] | Sel
 
 export class State<T extends object> extends BehaviorSubject<T> {
 
-  constructor(initialState: T) {
+  constructor(private readonly initialState: T) {
     super(initialState);
   }
 
@@ -72,6 +74,14 @@ export class State<T extends object> extends BehaviorSubject<T> {
       .pipe(
         map(fn)
       )
+  }
+
+  public reset(): void{
+    this.next(this.initialState)
+  }
+
+  public clear(): void {
+    this.next({} as T)
   }
 }
 

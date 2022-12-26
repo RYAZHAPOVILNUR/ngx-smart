@@ -23,14 +23,15 @@ export class AppComponent {
   private readonly cityByFn$ = this.state$.select(
     (state) => state.user.address.city
   );
+  private readonly stateClear$ = createState({})
   title = 'ngx-smart';
 
   constructor() {
     console.log(this.state$.value);
     this.state$.subscribe((res) => console.log({ res }));
-    this.city$.subscribe(console.log);
-    this.cityByFn$.subscribe(console.log);
-    this.multi$.subscribe((multi) => console.log({ multi }));
+    // this.city$.subscribe(console.log);
+    // this.cityByFn$.subscribe(console.log);
+    // this.multi$.subscribe((multi) => console.log({ multi }));
     this.state$.select().subscribe(console.log);
     this.state$.next(({
       ...this.state$.value,
@@ -44,5 +45,7 @@ export class AppComponent {
     }));
     this.state$.update({ user: { address: { city: 'London' } } });
     this.state$.update(['user.address.city', 'Cairo']);
+    this.state$.reset();
+    this.state$.clear();
   }
 }
