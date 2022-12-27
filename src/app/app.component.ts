@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { createState } from './ngx-smart';
+import {Component} from '@angular/core';
+import {createState} from './ngx-smart';
 
 @Component({
   selector: 'app-root',
@@ -7,6 +7,7 @@ import { createState } from './ngx-smart';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
+  title = 'ngx-smart';
   private readonly state$ = createState({
     user: {
       address: {
@@ -14,7 +15,6 @@ export class AppComponent {
       },
     },
   });
-
   private readonly city$ = this.state$.select('user.address.city');
   private readonly multi$ = this.state$.select([
     'user.address.city',
@@ -23,7 +23,6 @@ export class AppComponent {
   private readonly cityByFn$ = this.state$.select(
     (state) => state.user.address.city
   );
-  title = 'ngx-smart';
 
   constructor() {
     console.log(this.state$.value);
@@ -44,5 +43,6 @@ export class AppComponent {
     }));
     this.state$.update({ user: { address: { city: 'London' } } });
     this.state$.update(['user.address.city', 'Cairo']);
+    this.state$.reset();
   }
 }
