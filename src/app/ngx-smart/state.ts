@@ -9,7 +9,7 @@ export type UpdaterData<T> = Path | [Path, any] | [Path, StateCallback<T>] | Sel
 
 export class State<T extends object> extends BehaviorSubject<T> {
 
-  constructor(initialState: T) {
+  constructor(private readonly initialState: T) {
     super(initialState);
   }
 
@@ -46,6 +46,14 @@ export class State<T extends object> extends BehaviorSubject<T> {
         this.update(getValueToUpsert(data as [string, any]))
       }
     }
+  }
+
+  public reset(): void {
+    this.next(this.initialState)
+  }
+
+  public clear(): void {
+    this.next({} as T)
   }
 
   private selectBy(select: Selector<T>) {
