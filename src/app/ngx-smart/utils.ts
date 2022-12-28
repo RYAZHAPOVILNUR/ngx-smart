@@ -1,6 +1,7 @@
 export const select = <T>(data: T, path: string | string[]): any =>
   Array.isArray(path)
-    ? path
+    // @ts-ignore // todo fix after
+    ? path.reduce((acc, x) => acc[x], data)
     : path.split('.').
         // @ts-ignore // todo fix after
         reduce((acc, x) => acc[x], data);

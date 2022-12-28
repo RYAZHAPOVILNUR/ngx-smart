@@ -3,7 +3,7 @@ import {getValueToUpsert, select} from './utils'
 
 type Path = string;
 type StateCallback<T> = (state: T) => any
-export type Selector<T> = Path | Path[] | StateCallback<T> | StateCallback<T>[] | Array<Path | StateCallback<T>>;
+export type Selector<T> = Path | StateCallback<T>  | Array<Path | StateCallback<T>>;
 
 export type UpdaterData<T> = Path | [Path, any] | [Path, StateCallback<T>] | Selector<T> | object
 
@@ -17,6 +17,7 @@ export class State<T extends object> extends BehaviorSubject<T> {
     if (!selector) {
       return this.asObservable()
     }
+
     if (Array.isArray(selector)) {
       return combineLatest(
         selector.map(
@@ -24,6 +25,7 @@ export class State<T extends object> extends BehaviorSubject<T> {
         )
       )
     }
+
     return this.selectBy(selector);
   }
 
@@ -65,7 +67,7 @@ export class State<T extends object> extends BehaviorSubject<T> {
       return this.selectByFn(select)
     }
 
-    return EMPTY
+    throw Error('Provide string or function');
   }
 
   private selectByPath(path: string) {
