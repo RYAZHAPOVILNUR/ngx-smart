@@ -1,0 +1,22 @@
+{
+	"nodes":[
+		{"id":"a8a4d40003ad3c72","x":-141,"y":-89,"width":250,"height":60,"color":"5","type":"text","text":"Update method"},
+		{"id":"9e06cf93a3b5b21f","x":-831,"y":-163,"width":579,"height":428,"color":"1","type":"text","text":"```typescript\n// updateByPath\n// обновить с помощью передачи массива у которого первый элемент  - путь, второй - значение\nthis.state$.update([\n  'user.address.city', 'Cairo'\n]);\n\nprivate updateByPath(pathArray: [string, any]) {\n  this.updateByObject({\n    path: pathArray[0],\n    value: pathArray[1]\n  })\n}\n\n```"},
+		{"id":"b44a906b38cb36a6","x":-917,"y":407,"width":665,"height":461,"color":"1","type":"text","text":"```typescript\n// updateByObject\n// **обновить с помощью объекта у которого path - путь, value - значение**\n\nthis.state$.update({\n  path: 'user.address.city',\n  value: 'Cairo'\n});\n```\n\n```typescript\nprivate updateByObject(object: {path: string, value: any}) {\n  // перенести сюда код из метода updateByPath\n}\n```"},
+		{"id":"de01f0bccf1204b5","x":-805,"y":-816,"width":527,"height":483,"color":"1","type":"text","text":"```typescript\n// updateByArrayOfPaths\n// обновить с помощью передачи массива у которого каждый элемент, это массив, у которого первый элемент -путь, второй - значение\nthis.state$.update([\n  ['user.address.city', 'Cairo',\n  ['user.address.street', 'test street']\n]);\n\n// Псевдокод\nprivate updateByArrayOfPaths(arrayOfPaths) {\n  arrayOfPaths.forEach(\n    (el) => this.updateByPath(el)\n  )\n}\n\n```"},
+		{"id":"d7b29a47b8c81a67","x":-34,"y":848,"width":668,"height":340,"color":"1","type":"text","text":"```typescript\n// upateByArrayOfObjects\n// **обновить с помощью массива объектов у каждого из которых path - путь, value - значение**\n\nthis.state$.update([\n    {path: 'user.address.city', value: 'Cairo'},\n    {path: 'user.address.street', value: 'test street'}\n]);\n\n\n```"},
+		{"id":"12c5fb522460113c","x":303,"y":-523,"width":480,"height":360,"color":"4","type":"text","text":"```typescript\n// UpdateByCallback\n// передать в него функцию\nthis.state$.update((state) => ({\n      ...state,\n      user: {\n        ...state.user,\n        address: {\n          ...state.user.address,\n          city: 'Moscow',\n        },\n      },\n    }));\n\n```\n"},
+		{"id":"2150715616418928","x":303,"y":10,"width":463,"height":255,"color":"4","type":"text","text":"```typescript\n// Upsert\n// обновить с помощью объекта (upsert)\nthis.state$.update({\n  user: { \n    address: { \n      city: 'London' \n    } \n  }\n});\n```"}
+	],
+	"edges":[
+		{"id":"82214a1f9fe5df62","fromNode":"a8a4d40003ad3c72","fromSide":"right","toNode":"12c5fb522460113c","toSide":"left"},
+		{"id":"2c9f61499bed6ffb","fromNode":"a8a4d40003ad3c72","fromSide":"left","toNode":"9e06cf93a3b5b21f","toSide":"right"},
+		{"id":"3b893b3b93b14278","fromNode":"de01f0bccf1204b5","fromSide":"bottom","toNode":"9e06cf93a3b5b21f","toSide":"top","label":"Проходим в цикле и каждый раз вызываем"},
+		{"id":"c599dfd985fd2581","fromNode":"a8a4d40003ad3c72","fromSide":"bottom","toNode":"b44a906b38cb36a6","toSide":"right"},
+		{"id":"04fb8bcc39537b43","fromNode":"9e06cf93a3b5b21f","fromSide":"bottom","toNode":"b44a906b38cb36a6","toSide":"top","label":"Вызываем updateByObject()"},
+		{"id":"39ae0b2bec82df85","fromNode":"a8a4d40003ad3c72","fromSide":"top","toNode":"de01f0bccf1204b5","toSide":"right"},
+		{"id":"0b27ca3beef960b3","fromNode":"a8a4d40003ad3c72","fromSide":"bottom","toNode":"d7b29a47b8c81a67","toSide":"top"},
+		{"id":"9da03f233d4f4ef2","fromNode":"d7b29a47b8c81a67","fromSide":"left","toNode":"b44a906b38cb36a6","toSide":"bottom","label":"Идем в цикле и на каждой итерации\nвызываем updateByObject"},
+		{"id":"69066af0121f006c","fromNode":"a8a4d40003ad3c72","fromSide":"bottom","toNode":"2150715616418928","toSide":"left"}
+	]
+}
